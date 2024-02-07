@@ -3,3 +3,5 @@ services:
     build: .
     volumes:
       - .:/home
+    environment:
+      CHORES_API_URL: ${CHORES_API_URL:-http://host.docker.internal:8080}

@@ -15,6 +15,8 @@ This is set up to run via docker as the inky library cannot be installed on maco
 
 The file `resources/eink-screen.png` will be written to every time the eink display would refresh. If you have this image file selected in finder the preview will live update.
 
+Set the `CHORES_API_URL` to the url you want to use, if this is set to a file path the program will read a mock json response from that file.
+
 ### Running on a raspberry pi
 
 TODO

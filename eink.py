@@ -4,7 +4,9 @@ from inky.auto import auto
 from PIL import Image, ImageDraw, ImageColor
 
 class EInk:
-    def __init__(self):
+    def __init__(self, font, minor_font):
+        self.font = font
+        self.minor_font = minor_font
         self.display = auto(ask_user=True)
         self.reset_image()
 
@@ -27,6 +29,17 @@ class EInk:
         for y in range(0, self.display.height):
             for x in range(0, self.display.width):
                 self.image.putpixel((x, y), colour)
+
+    def draw_text(self, coordinate, text, colour=None, minor=False):
+        if colour is None:
+            colour = self.BLACK
+        font = self.minor_font if minor else self.font
+        self.draw.text(coordinate, text, colour, font=font)
+
+    def draw_full_width_line(self, y, colour=None):
+        if colour is None:
+            colour = self.BLACK
+        self.draw.line([(0, y), (self.display.width), y], fill=colour)
 
     def show(self):
         if is_running_on_raspberry_pi():
