@@ -9,7 +9,18 @@ class EInk:
         self.font = ImageFont.truetype(LayoutSettings.font_path, LayoutSettings.font_size)
         self.minor_font = ImageFont.truetype(LayoutSettings.font_path, LayoutSettings.minor_font_size)
         self.display = auto(ask_user=True)
-        self.reset_image()
+
+        if LayoutSettings.orientation == "landscape":
+            self.width = self.display.width
+            self.height = self.display.height
+        elif LayoutSettings.orientation == "portrait":
+            self.width = self.display.height
+            self.height = self.display.width
+        else:
+            raise Exception(f"Invalid orientation: {LayoutSettings.orientation}")
+
+        self.image = Image.new("P", (self.width, self.height))
+        self.draw = ImageDraw.Draw(self.image)
 
         self.BLACK = self.display.BLACK
         self.WHITE = self.display.WHITE
@@ -21,14 +32,12 @@ class EInk:
         self.CLEAN = self.display.CLEAN
 
     def reset_image(self):
-        self.image = Image.new("P", self.display.resolution)
-        self.draw = ImageDraw.Draw(self.image)
         # TODO - is this required on the real hardware?
         self.fill_image_with_colour(self.display.CLEAN)
 
     def fill_image_with_colour(self, colour):
-        for y in range(0, self.display.height):
-            for x in range(0, self.display.width):
+        for y in range(0, self.height):
+            for x in range(0, self.width):
                 self.image.putpixel((x, y), colour)
 
     def draw_text(self, coordinate, text, colour=None, minor=False):
@@ -40,11 +49,14 @@ class EInk:
     def draw_full_width_line(self, y, colour=None):
         if colour is None:
             colour = self.BLACK
-        self.draw.line([(0, y), (self.display.width), y], fill=colour)
+        self.draw.line([(0, y), (self.width, y)], fill=colour)
 
     def show(self):
         if is_running_on_raspberry_pi():
-            self.display.set_image(self.image)
+            if LayoutSettings.orientation == "portrait":
+                self.display.set_image(self.image.rotate(90, expand=True))
+            else:
+                self.display.set_image(self.image)
             self.display.show()
         else:
             # Convert the image to a normal rgb image and save it
@@ -58,9 +70,9 @@ class EInk:
             colour_mapping[self.display.ORANGE] = "#ffa500"
             colour_mapping[self.display.CLEAN] = colour_mapping[self.display.WHITE]
 
-            rgbImage = Image.new("RGB", self.display.resolution)
-            for y in range(0, self.display.height):
-                for x in range(0, self.display.width):
+            rgbImage = Image.new("RGB", (self.width, self.height))
+            for y in range(0, self.height):
+                for x in range(0, self.width):
                     eink_colour = self.image.getpixel((x, y))
                     hex_colour = colour_mapping[eink_colour]
                     rgbImage.putpixel((x, y), ImageColor.getrgb(hex_colour))
