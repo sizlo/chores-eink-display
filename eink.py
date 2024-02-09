@@ -1,12 +1,13 @@
 from util import is_running_on_raspberry_pi, resource_path
+from layout_settings import LayoutSettings
 
 from inky.auto import auto
-from PIL import Image, ImageDraw, ImageColor
+from PIL import Image, ImageDraw, ImageColor, ImageFont
 
 class EInk:
-    def __init__(self, font, minor_font):
-        self.font = font
-        self.minor_font = minor_font
+    def __init__(self):
+        self.font = ImageFont.truetype(LayoutSettings.font_path, LayoutSettings.font_size)
+        self.minor_font = ImageFont.truetype(LayoutSettings.font_path, LayoutSettings.minor_font_size)
         self.display = auto(ask_user=True)
         self.reset_image()
 

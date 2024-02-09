@@ -1,13 +1,14 @@
 from util import now_as_string
 from word_wrapper import WordWrapper
+from layout_settings import LayoutSettings, calculate_task_characters_per_line
 
 class ErrorRenderer:
-    def __init__(self, eink, left_border, start_y, line_height, characters_per_line):
+    def __init__(self, eink):
         self.eink = eink
-        self.x = left_border
-        self.y = start_y
-        self.line_height = line_height
-        self.characters_per_line = characters_per_line
+        self.x = LayoutSettings.left_border
+        self.y = LayoutSettings.tasks_start_y
+        self.line_height = LayoutSettings.task_line_height
+        self.characters_per_line = calculate_task_characters_per_line(eink)
 
     def render_error(self, error):
         self.eink.draw_text((self.x, self.y), f"Error occurred at {now_as_string()}")

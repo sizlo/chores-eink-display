@@ -1,3 +1,5 @@
+from layout_settings import calculate_task_characters_per_line
+
 class WordWrapper:
     def __init__(self, text, characters_per_line):
         self.characters_per_line = characters_per_line

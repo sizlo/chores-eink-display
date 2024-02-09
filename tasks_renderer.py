@@ -1,14 +1,13 @@
 from word_wrapper import WordWrapper
+from layout_settings import LayoutSettings, calculate_task_characters_per_line, calculate_task_lines_that_will_fit_on_screen
 
 class TasksRenderer:
-    def __init__(self, eink, left_border, start_y, line_height, separator_offset, max_lines, characters_per_line):
+    def __init__(self, eink):
         self.eink = eink
-        self.x = left_border
-        self.y = start_y
-        self.line_height = line_height
-        self.separator_offset = separator_offset
-        self.lines_left = max_lines
-        self.characters_per_line = characters_per_line
+        self.x = LayoutSettings.left_border
+        self.y = LayoutSettings.tasks_start_y
+        self.lines_left = calculate_task_lines_that_will_fit_on_screen(eink)
+        self.characters_per_line = calculate_task_characters_per_line(eink)
         self.tasks_rendered = 0
 
     def render_tasks(self, tasks):
@@ -29,7 +28,7 @@ class TasksRenderer:
                 line = self.add_ellipsis(line)
 
             self.eink.draw_text((self.x, self.y), line)
-            self.y += self.line_height
+            self.y += LayoutSettings.task_line_height
             self.lines_left -= 1
             if self.lines_left <= 0:
                 break
@@ -48,4 +47,4 @@ class TasksRenderer:
         return "".join(characters)
 
     def render_seperator(self):
-        self.eink.draw_full_width_line(self.y - self.line_height + self.separator_offset)
+        self.eink.draw_full_width_line(self.y - LayoutSettings.task_line_height + LayoutSettings.task_separator_offset)
