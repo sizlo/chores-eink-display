@@ -7,6 +7,7 @@ import requests
 class Task:
     def __init__(self, data):
         self.name = data["name"]
+        self.overdue_text = data["overdueText"]
 
 class TaskFetcher:
     def __init__(self):

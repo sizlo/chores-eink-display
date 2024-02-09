@@ -7,13 +7,12 @@ class ErrorRenderer:
         self.eink = eink
         self.x = LayoutSettings.left_border
         self.y = LayoutSettings.tasks_start_y
-        self.line_height = LayoutSettings.task_line_height
         self.characters_per_line = calculate_task_characters_per_line(eink)
 
     def render_error(self, error):
         self.eink.draw_text((self.x, self.y), f"Error occurred at {now_as_string()}")
-        self.y += self.line_height
+        self.y += LayoutSettings.line_height
         error_lines = WordWrapper(str(error), self.characters_per_line).wrap_words()
         for line in error_lines:
             self.eink.draw_text((self.x, self.y), line)
-            self.y += self.line_height
+            self.y += LayoutSettings.line_height
