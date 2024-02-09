@@ -1,5 +1,6 @@
+from util import api_url
+
 import os
-import sys
 import json
 import requests
 
@@ -9,11 +10,7 @@ class Task:
 
 class TaskFetcher:
     def __init__(self):
-        try:
-            self.url = os.environ["CHORES_API_URL"]
-        except KeyError:
-            print("Missing required envar: CHORES_API_URL")
-            sys.exit(1)
+        self.url = api_url()
 
     def fetch_overdue_tasks(self):
         tasks = json.loads(self.fetch_json())
