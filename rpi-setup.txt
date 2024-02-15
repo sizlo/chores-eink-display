@@ -1,0 +1,11 @@
+Set up OS with RPI Imager
+Install git `sudo apt install git`
+Clone repo with https so no login needed `git clone https://github.com/sizlo/chores-eink-display.git`
+Install pip `sudo apt install python3-pip`
+Install inky `pip3 install inky[rpi,example-depends]`
+Enable I2C and SPI in sudo raspi-config
+Setup environment variables
+    `export RESOURCES_PATH=/path/to/chores-eink-display/resources`
+    `export CHORES_API_URL=http://chores-api-url.com`
+    `export DISPLAY_MODE=eink-screen`
+Run `python3 chores-eink-display.py`
