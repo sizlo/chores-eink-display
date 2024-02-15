@@ -6,7 +6,9 @@ from error_renderer import ErrorRenderer
 from util import log
 
 def main():
+    log("Setting up Eink")
     eink = EInk()
+    log("Setting up Eink - Done")
 
     try:
         show_overdue_tasks(eink)
