@@ -5,3 +5,4 @@ services:
       - .:/home
     environment:
       CHORES_API_URL: ${CHORES_API_URL:-http://host.docker.internal:8080}
+      RESOURCE_PATH: ${RESOURCES_PATH:-/home/resources}
