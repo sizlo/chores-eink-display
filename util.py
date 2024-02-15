@@ -12,9 +12,11 @@ def require_env(key):
 def log(message):
     print(f"{datetime.now().strftime('%m-%d-%Y %H:%M:%S.%f')} - {message}")
 
-def is_running_on_raspberry_pi():
-    # TODO actually check the hardware somehow once I have it
-    return False
+def is_running_with_eink_screen():
+    try:
+        return os.environ["DISPLAY_MODE"] == "eink-screen"
+    except KeyError:
+        return False
 
 def resource_path(relative):
     return f"{require_env('RESOURCES_PATH')}/{relative}"

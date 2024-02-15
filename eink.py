@@ -1,4 +1,4 @@
-from util import is_running_on_raspberry_pi, resource_path
+from util import is_running_with_eink_screen, resource_path
 from layout_settings import LayoutSettings
 
 from inky.auto import auto
@@ -52,7 +52,7 @@ class EInk:
         self.draw.line([(0, y), (self.width, y)], fill=colour)
 
     def show(self):
-        if is_running_on_raspberry_pi():
+        if is_running_with_eink_screen():
             if LayoutSettings.orientation == "portrait":
                 self.display.set_image(self.image.rotate(90, expand=True))
             else:
