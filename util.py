@@ -2,6 +2,9 @@ from datetime import datetime
 import sys
 import os
 
+def log(message):
+    print(f"{datetime.now().strftime('%m-%d-%Y %H:%M:%S.%f')} - {message}")
+
 def is_running_on_raspberry_pi():
     # TODO actually check the hardware somehow once I have it
     return False
