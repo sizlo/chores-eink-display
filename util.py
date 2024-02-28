@@ -1,5 +1,6 @@
 import sys
 import os
+import subprocess
 
 def require_env(key):
     try:
@@ -27,5 +28,4 @@ def friendly_date_string(date):
     return date.strftime("%m-%d-%Y %H:%M")
 
 def shutdown():
-    # TODO
-    pass
+    subprocess.run(["sudo", "shutdown", "now"])
