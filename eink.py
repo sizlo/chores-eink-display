@@ -1,5 +1,6 @@
-from util import is_running_with_eink_screen, resource_path, log
+from util import is_running_with_eink_screen, resource_path
 from layout_settings import LayoutSettings
+from log import logger
 
 from inky.auto import auto
 from PIL import Image, ImageDraw, ImageColor, ImageFont
@@ -60,7 +61,7 @@ class EInk:
             self.display.show()
         else:
             image_file_path = resource_path("eink-screen.png")
-            log(f"Simulating eink screen, rendering screen contents to {image_file_path}")
+            logger.info(f"Simulating eink screen, rendering screen contents to {image_file_path}")
             # Convert the image to a normal rgb image and save it
             colour_mapping = [""] * 8
             colour_mapping[self.display.BLACK] = "#000000"

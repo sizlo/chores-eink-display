@@ -1,4 +1,4 @@
-from util import log
+from log import logger
 
 import subprocess
 from datetime import datetime, timedelta, timezone
@@ -79,5 +79,5 @@ def create_pisugar():
         real_pisugar.get_model()
         return real_pisugar
     except:
-        log("Could not get PiSugar model, using MockPiSugar")
+        logger.info("Could not get PiSugar model, using MockPiSugar")
         return MockPiSugar()

@@ -1,4 +1,3 @@
-from datetime import datetime
 import sys
 import os
 
@@ -14,9 +13,6 @@ def env(key, default=None):
         return os.environ[key]
     except KeyError:
         return default
-
-def log(message):
-    print(f"{datetime.now().strftime('%m-%d-%Y %H:%M:%S.%f')} - {message}")
 
 def is_running_with_eink_screen():
     return env("DISPLAY_MODE", default="not-eink-screen") == "eink-screen"

@@ -4,84 +4,85 @@ from task_fetcher import TaskFetcher
 from tasks_renderer import TasksRenderer
 from info_renderer import InfoRenderer
 from error_renderer import ErrorRenderer
-from util import log, shutdown, require_env
+from util import shutdown, require_env
+from log import logger
 
 def main():
-    log("Setting up Eink")
+    logger.info("Setting up Eink")
     eink = EInk()
-    log("Setting up Eink - Done")
+    logger.info("Setting up Eink - Done")
 
-    log("Setting up PiSugar")
+    logger.info("Setting up PiSugar")
     pisugar = create_pisugar()
-    log("Setting up PiSugar - Done")
+    logger.info("Setting up PiSugar - Done")
 
     try:
         schedule_next_refresh(pisugar)
         show_overdue_tasks(eink, pisugar)
     except Exception as error:
-        log(f"Got error: {error}")
+        logger.info(f"Got error: {error}")
         show_error(eink, error)
 
     if pisugar.is_plugged_in():
-        log("Remaining switched on because we are plugged in")
+        logger.info("Remaining switched on because we are plugged in")
     else:
-        log("Shutting down")
+        logger.info("Shutting down")
         shutdown()
 
 def schedule_next_refresh(pisugar):
     if pisugar.real:
-        log("Scheduling next refresh")
+        logger.info("Scheduling next refresh")
         pisugar.ensure_pisugar_and_raspberry_pi_have_correct_current_time()
         pisugar.schedule_next_boot(int(require_env("REFRESH_HOUR")))
-        log("Scheduling next refresh - Done")
+        logger.info("Scheduling next refresh - Done")
 
 def show_overdue_tasks(eink, pisugar):
-    log("===== Showing over due tasks =====")
+    logger.info("===== Showing over due tasks =====")
 
-    log("Setting up objects")
+    logger.info("Setting up objects")
     task_fetcher = TaskFetcher()
     tasks_renderer = TasksRenderer(eink)
     info_renderer = InfoRenderer(eink, pisugar)
-    log("Setting up objects - Done")
+    logger.info("Setting up objects - Done")
 
-    log("Fetching tasks")
+    logger.info("Fetching tasks")
     tasks = task_fetcher.fetch_overdue_tasks()
-    log("Fetching tasks - Done")
+    logger.info("Fetching tasks - Done")
 
-    log("Resetting image")
+    logger.info("Resetting image")
     eink.reset_image()
-    log("Resetting image - Done")
+    logger.info("Resetting image - Done")
 
-    log("Rendering tasks")
+    logger.info("Rendering tasks")
     tasks_renderer.render_tasks(tasks)
-    log("Rendering tasks - Done")
+    logger.info("Rendering tasks - Done")
 
-    log("Rendering info")
+    logger.info("Rendering info")
     info_renderer.render_info(len(tasks), tasks_renderer.tasks_rendered)
-    log("Rendering info - Done")
+    logger.info("Rendering info - Done")
 
-    log("Updating screen")
+    logger.info("Updating screen")
     eink.show()
-    log("Updating screen - Done")
+    logger.info("Updating screen - Done")
 
 def show_error(eink, error):
-    log("===== Showing error =====")
+    logger.info("===== Showing error =====")
 
-    log("Setting up objects")
+    logger.info("Setting up objects")
     error_renderer = ErrorRenderer(eink)
-    log("Setting up objects - Done")
+    logger.info("Setting up objects - Done")
 
-    log("Resetting image")
+    logger.info("Resetting image")
     eink.reset_image()
-    log("Resetting image - Done")
+    logger.info("Resetting image - Done")
 
-    log("Rendering error")
+    logger.info("Rendering error")
     error_renderer.render_error(error)
-    log("Rendering error - Done")
+    logger.info("Rendering error - Done")
 
-    log("Updating screen")
+    logger.info("Updating screen")
     eink.show()
-    log("Updating screen - Done")
+    logger.info("Updating screen - Done")
 
 if __name__ == "__main__":
     main()
