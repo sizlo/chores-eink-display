@@ -1,30 +1,47 @@
 from eink import EInk
+from pisugar import create_pisugar
 from task_fetcher import TaskFetcher
 from tasks_renderer import TasksRenderer
 from info_renderer import InfoRenderer
 from error_renderer import ErrorRenderer
-from util import log
+from util import log, shutdown, require_env
 
 def main():
     log("Setting up Eink")
     eink = EInk()
     log("Setting up Eink - Done")
 
+    log("Setting up PiSugar")
+    pisugar = create_pisugar()
+    log("Setting up PiSugar - Done")
+
     try:
-        show_overdue_tasks(eink)
+        schedule_next_refresh(pisugar)
+        show_overdue_tasks(eink, pisugar)
     except Exception as error:
         log(f"Got error: {error}")
         show_error(eink, error)
 
-    # TODO - shutdown only if we are currently running via battery, remain on when plugged in to allow ssh-ing in
+    if pisugar.is_plugged_in():
+        log("Remaining switched on because we are plugged in")
+    else:
+        log("Shutting down")
+        shutdown()
 
-def show_overdue_tasks(eink):
+def schedule_next_refresh(pisugar):
+    if pisugar.real:
+        log("Scheduling next refresh")
+        pisugar.ensure_pisugar_and_raspberry_pi_have_correct_current_time()
+        pisugar.schedule_next_boot(int(require_env("REFRESH_HOUR")))
+        log("Scheduling next refresh - Done")
+
+def show_overdue_tasks(eink, pisugar):
     log("===== Showing over due tasks =====")
 
     log("Setting up objects")
     task_fetcher = TaskFetcher()
     tasks_renderer = TasksRenderer(eink)
-    info_renderer = InfoRenderer(eink)
+    info_renderer = InfoRenderer(eink, pisugar)
     log("Setting up objects - Done")
 
     log("Fetching tasks")

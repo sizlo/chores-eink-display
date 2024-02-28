@@ -1,6 +1,8 @@
-from util import now_as_string
+from util import friendly_date_string
 from word_wrapper import WordWrapper
 from layout_settings import LayoutSettings, calculate_task_characters_per_line
+
+from datetime import datetime
 
 class ErrorRenderer:
     def __init__(self, eink):
@@ -10,7 +12,7 @@ class ErrorRenderer:
         self.characters_per_line = calculate_task_characters_per_line(eink)
 
     def render_error(self, error):
-        self.eink.draw_text((self.x, self.y), f"Error occurred at {now_as_string()}")
+        self.eink.draw_text((self.x, self.y), f"Error occurred at {friendly_date_string(datetime.now())}")
         self.y += LayoutSettings.line_height
         error_lines = WordWrapper(str(error), self.characters_per_line).wrap_words()
         for line in error_lines:

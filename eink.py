@@ -1,4 +1,4 @@
-from util import is_running_with_eink_screen, resource_path
+from util import is_running_with_eink_screen, resource_path, log
 from layout_settings import LayoutSettings
 
 from inky.auto import auto
@@ -59,6 +59,8 @@ class EInk:
                 self.display.set_image(self.image)
             self.display.show()
         else:
+            image_file_path = resource_path("eink-screen.png")
+            log(f"Simulating eink screen, rendering screen contents to {image_file_path}")
             # Convert the image to a normal rgb image and save it
             colour_mapping = [""] * 8
             colour_mapping[self.display.BLACK] = "#000000"
@@ -76,4 +78,4 @@ class EInk:
                     eink_colour = self.image.getpixel((x, y))
                     hex_colour = colour_mapping[eink_colour]
                     rgbImage.putpixel((x, y), ImageColor.getrgb(hex_colour))
-            rgbImage.save(resource_path("eink-screen.png"))
+            rgbImage.save(image_file_path)

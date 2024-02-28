@@ -9,3 +9,5 @@ Setup environment variables
     `export CHORES_API_URL=http://chores-api-url.com`
     `export DISPLAY_MODE=eink-screen`
 Run `python3 chores-eink-display.py`
+Install pisugar software `curl http://cdn.pisugar.com/release/pisugar-power-manager.sh | sudo bash`
+    You will be asked to configure a username and password for the web-ui, I chose the same details as the raspberry pi user

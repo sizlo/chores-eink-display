@@ -9,14 +9,17 @@ def require_env(key):
         print(f"Missing required envar: {key}")
         sys.exit(1)
 
+def env(key, default=None):
+    try:
+        return os.environ[key]
+    except KeyError:
+        return default
+
 def log(message):
     print(f"{datetime.now().strftime('%m-%d-%Y %H:%M:%S.%f')} - {message}")
 
 def is_running_with_eink_screen():
-    try:
-        return os.environ["DISPLAY_MODE"] == "eink-screen"
-    except KeyError:
-        return False
+    return env("DISPLAY_MODE", default="not-eink-screen") == "eink-screen"
 
 def resource_path(relative):
     return f"{require_env('RESOURCES_PATH')}/{relative}"
@@ -24,12 +27,8 @@ def resource_path(relative):
 def api_url():
     return require_env("CHORES_API_URL")
 
-def now_as_string():
-    return datetime.now().strftime("%m-%d-%Y %H:%M")
-
-def get_battery_percent():
-    # TODO
-    return 100
+def friendly_date_string(date):
+    return date.strftime("%m-%d-%Y %H:%M")
 
 def shutdown():
     # TODO

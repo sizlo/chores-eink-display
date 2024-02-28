@@ -9,7 +9,7 @@ class LayoutSettings:
 
     # These settings are specific to the font and font sizes, if those change these will need to be updated
     left_border = 4
-    info_text_y = 0
+    info_start_y = 0
     info_separator_y = 18
     line_height = 32
     minor_line_height = 16
