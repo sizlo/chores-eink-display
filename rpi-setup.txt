@@ -11,3 +11,17 @@ Setup environment variables
 Run `python3 chores-eink-display.py`
 Install pisugar software `curl http://cdn.pisugar.com/release/pisugar-power-manager.sh | sudo bash`
     You will be asked to configure a username and password for the web-ui, I chose the same details as the raspberry pi user
+Create ~/startup.sh
+    ```
+    #!/bin/bash
+
+    export RESOURCES_PATH=/path/to/chores-eink-display/resources
+    export CHORES_API_URL=http://chores-api-url.com
+    export REFRESH_HOUR=5
+    export DISPLAY_MODE=eink-screen
+
+    python3 /path/to/chores-eink-display/chores-eink-display.py
+    ```
+Call startup.sh on start
+    `crontab -e`
+    Add line: `@reboot /path/to/startup.sh`
