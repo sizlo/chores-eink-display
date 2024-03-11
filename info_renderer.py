@@ -12,6 +12,6 @@ class InfoRenderer:
 
     def render_info(self, total_tasks, tasks_rendered):
         # TODO - Draw as separate blocks and put a real vertical line seperator between blocks
-        info_text = f"{self.pisugar.get_battery_percent()}% | {api_url()} | {friendly_date_string(datetime.now())} | {tasks_rendered}/{total_tasks}"
+        info_text = f"{self.pisugar.get_battery_percent()}% | {api_url()} | {friendly_date_string(datetime.now())} | {tasks_rendered}/{total_tasks} tasks"
         self.eink.draw_text((self.x, self.text_y), info_text, minor=True)
         self.eink.draw_full_width_line(LayoutSettings.info_separator_y)
