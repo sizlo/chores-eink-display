@@ -12,9 +12,8 @@ class ErrorRenderer:
         self.characters_per_line = calculate_task_characters_per_line(eink)
 
     def render_error(self, error):
-        self.eink.draw_text((self.x, self.y), f"Error occurred at {friendly_date_string(datetime.now())}")
-        self.y += LayoutSettings.line_height
-        error_lines = WordWrapper(str(error), self.characters_per_line).wrap_words()
+        error_text = f"Error occurred at {friendly_date_string(datetime.now())} - {error}"
+        error_lines = WordWrapper(error_text, self.characters_per_line).wrap_words()
         for line in error_lines:
             self.eink.draw_text((self.x, self.y), line)
             self.y += LayoutSettings.line_height
