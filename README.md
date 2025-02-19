@@ -57,7 +57,7 @@ Set the `CHORES_API_URL` to the url you want to use, if this is set to a file pa
   #!/bin/bash
   
   export RESOURCES_PATH=/path/to/chores-eink-display/resources
-  export CHORES_API_URL=http://chores.local # Replace this with the url you are running the chores-api on 
+  export CHORES_API_URL=http://pi.local # Replace this with the url you are running the chores-api on 
   export REFRESH_HOUR=5 # This tells the device to run every day at 5am
   export DISPLAY_MODE=eink-screen
   
