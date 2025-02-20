@@ -24,6 +24,9 @@ def resource_path(relative):
 def api_url():
     return require_env("CHORES_API_URL")
 
+def remove_protocol(url):
+    return url.split("//")[1]
+
 def friendly_date_string(date):
     return date.strftime("%m-%d-%Y %H:%M")
 
