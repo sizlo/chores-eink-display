@@ -8,13 +8,17 @@ from util import shutdown, require_env
 from log import logger
 
 def main():
-    logger.info("Setting up Eink")
-    eink = EInk()
-    logger.info("Setting up Eink - Done")
+    logger.info("========================== Entered main method ==========================")
 
     logger.info("Setting up PiSugar")
     pisugar = create_pisugar()
     logger.info("Setting up PiSugar - Done")
+
+    sync_current_time(pisugar)
+
+    logger.info("Setting up Eink")
+    eink = EInk()
+    logger.info("Setting up Eink - Done")
 
     try:
         schedule_next_refresh(pisugar)
@@ -29,11 +33,16 @@ def main():
         logger.info("Shutting down")
         shutdown()
 
+def sync_current_time(pisugar):
+    logger.info("Syncing with the correct current time")
+    pisugar.ensure_pisugar_and_raspberry_pi_have_correct_current_time()
+    logger.info("Syncing with the correct current time - Done")
+
 def schedule_next_refresh(pisugar):
     if pisugar.real:
         logger.info("Scheduling next refresh")
-        pisugar.ensure_pisugar_and_raspberry_pi_have_correct_current_time()
-        pisugar.schedule_next_boot(int(require_env("REFRESH_HOUR")))
+        next_refresh_time = pisugar.schedule_next_boot(int(require_env("REFRESH_HOUR")))
+        logger.info(f"Next refresh scheduled for: {next_refresh_time}")
         logger.info("Scheduling next refresh - Done")
 
 def show_overdue_tasks(eink, pisugar):

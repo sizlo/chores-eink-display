@@ -15,10 +15,11 @@ I am running this with
 - PiSugar documentation
   - [Github repo](https://github.com/PiSugar/PiSugar)
   - [Github wiki](https://github.com/PiSugar/PiSugar/wiki)
-  - [Wiki page specific for PiSugar 3](https://github.com/PiSugar/PiSugar/wiki/PiSugar-3-Series)
-  - [List of commands to interact with PiSugar from Raspberry Pi](https://github.com/PiSugar/PiSugar/wiki/PiSugar-Power-Manager-(Software)#commands)
+  - [Docs webpage](https://docs.pisugar.com/docs/product-wiki/battery/ups-intro)
+  - [Docs page specific for PiSugar 3](https://docs.pisugar.com/docs/product-wiki/battery/pisugar3/pisugar-3-series)
+  - [List of commands to interact with PiSugar from Raspberry Pi](https://docs.pisugar.com/docs/product-wiki/battery/pisugar-power-manager#commands)
 
-Note: The power button for the PiSugar is the one closest to the magnet. Click it once and then hold it to power on or off the device. This information was not readily available in thr documentation.
+Note: The power button for the PiSugar is the one closest to the magnet. Click it once and then hold it to power on or off the device. This information was not readily available in the documentation.
 
 ## Running
 

@@ -27,6 +27,7 @@ class PiSugar:
         next_boot_str = next_boot.isoformat()
         repeat = 127 # 1111111 in binary, each bit is a day of the week, all are enabled
         self.run_command(f"rtc_alarm_set {next_boot_str} {repeat}")
+        return next_boot_str
 
     def run_command(self, command):
         result = subprocess.run(
@@ -68,7 +69,7 @@ class MockPiSugar:
         pass
 
     def schedule_next_boot(self, hour):
-        pass
+        return "dummy_boot_time"
 
     def get_next_boot_time(self):
         return datetime.now() + timedelta(hours=1)
