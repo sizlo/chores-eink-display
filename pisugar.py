@@ -1,6 +1,7 @@
 from log import logger
 
 import subprocess
+import time
 from datetime import datetime, timedelta, timezone
 
 class PiSugar:
@@ -20,6 +21,9 @@ class PiSugar:
 
     def ensure_pisugar_and_raspberry_pi_have_correct_current_time(self):
         self.run_command("rtc_web")
+        seconds_to_sleep
+        logger.info(f"Sleeping for {seconds_to_sleep}s as it takes a while for the time to sync")
+        time.sleep(seconds_to_sleep)
 
     def schedule_next_boot(self, hour):
         now = datetime.now(tz=timezone.utc)
@@ -27,7 +31,7 @@ class PiSugar:
         next_boot_str = next_boot.isoformat()
         repeat = 127 # 1111111 in binary, each bit is a day of the week, all are enabled
         self.run_command(f"rtc_alarm_set {next_boot_str} {repeat}")
-        return next_boot_str
+        logger.info(f"Next boot scheduled for: {next_boot_str}")
 
     def run_command(self, command):
         result = subprocess.run(
@@ -69,7 +73,7 @@ class MockPiSugar:
         pass
 
     def schedule_next_boot(self, hour):
-        return "dummy_boot_time"
+        pass
 
     def get_next_boot_time(self):
         return datetime.now() + timedelta(hours=1)

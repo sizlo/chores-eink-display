@@ -41,8 +41,7 @@ def sync_current_time(pisugar):
 def schedule_next_refresh(pisugar):
     if pisugar.real:
         logger.info("Scheduling next refresh")
-        next_refresh_time = pisugar.schedule_next_boot(int(require_env("REFRESH_HOUR")))
-        logger.info(f"Next refresh scheduled for: {next_refresh_time}")
+        pisugar.schedule_next_boot(int(require_env("REFRESH_HOUR")))
         logger.info("Scheduling next refresh - Done")
 
 def show_overdue_tasks(eink, pisugar):
