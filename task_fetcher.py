@@ -36,10 +36,11 @@ class TaskFetcher:
         # This will only retry connection failures, if you want to retry on certain HTTP status codes you should
         # supply the status_forcelist parameter
         retries = Retry(
-            total=3,
+            total=5,
             backoff_factor=0.1,
         )
-        session.mount('', HTTPAdapter(max_retries=retries))
+        session.mount('http://', HTTPAdapter(max_retries=retries))
+        session.mount('https://', HTTPAdapter(max_retries=retries))
         
         response = session.get(endpoint_url)
         
