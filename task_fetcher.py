@@ -3,6 +3,7 @@ from util import api_url
 import os
 import json
 import requests
+from requests.adapters import HTTPAdapter, Retry
 
 class Task:
     def __init__(self, data):
@@ -30,7 +31,18 @@ class TaskFetcher:
 
     def json_from_api(self):
         endpoint_url = f"{self.url}/api/tasks/overdue"
-        response = requests.get(endpoint_url)
+
+        session = requests.Session()
+        # This will only retry connection failures, if you want to retry on certain HTTP status codes you should
+        # supply the status_forcelist parameter
+        retries = Retry(
+            total=3,
+            backoff_factor=0.1,
+        )
+        session.mount('https://', HTTPAdapter(max_retries=retries))
+        
+        response = session.get(endpoint_url)
+        
         if response.status_code != 200:
             raise Exception(f"Error fetching tasks from api {endpoint_url}. Got status code {response.status_code}")
         return response.text
