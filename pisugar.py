@@ -21,7 +21,7 @@ class PiSugar:
 
     def ensure_pisugar_and_raspberry_pi_have_correct_current_time(self):
         self.run_command("rtc_web")
-        seconds_to_sleep
+        seconds_to_sleep = 15
         logger.info(f"Sleeping for {seconds_to_sleep}s as it takes a while for the time to sync")
         time.sleep(seconds_to_sleep)
 
